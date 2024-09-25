@@ -1,5 +1,6 @@
 package cn.guoxy.mate.oss;
 
+import cn.guoxy.mate.data.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +11,4 @@ import org.springframework.stereotype.Repository;
  * @author Guo XiaoYong
  */
 @Repository
-public interface FileItemRepository extends JpaRepository<FileItem, String> {}
+public interface FileItemRepository extends BaseRepository<FileItem> {}
