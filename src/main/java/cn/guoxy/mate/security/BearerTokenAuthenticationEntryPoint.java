@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,7 @@ public class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryP
     Map<String, Object> result = new HashMap<>();
     result.put("msg", authException.getMessage());
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    response.setContentType("application/json;charset=utf-8");
+    response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().write(objectMapper.writeValueAsString(result));
   }
 }

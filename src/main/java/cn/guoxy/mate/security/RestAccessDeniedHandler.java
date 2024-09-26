@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
       throws IOException, ServletException {
     Map<String, String> result = new HashMap<>();
     result.put("msg", "权限不足");
-    response.setContentType("text/json;charset=utf-8");
+    response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     response.getWriter().write(objectMapper.writeValueAsString(result));
   }
