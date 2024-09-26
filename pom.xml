@@ -16,19 +16,30 @@
   <description>mate-backend</description>
   <url/>
   <licenses>
-    <license/>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>manual</distribution>
+    </license>
   </licenses>
   <developers>
-    <developer/>
+    <developer>
+      <name>Guo Xiaoyong</name>
+      <email>sionguo@126.com</email>
+      <timezone>Asia/Shanghai</timezone>
+    </developer>
   </developers>
   <scm>
-    <connection/>
-    <developerConnection/>
-    <tag/>
-    <url/>
+    <connection>scm:git:git@github.com:sionguo/mate-backend.git</connection>
+    <developerConnection>scm:git:git@github.com:sionguo/mate-backend.git</developerConnection>
+    <url>scm:git:git@github.com:sionguo/mate-backend.git</url>
   </scm>
   <properties>
     <java.version>17</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <dependencies>
     <dependency>
@@ -37,7 +48,7 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -53,6 +64,14 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-undertow</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+      <version>9.41.1</version>
+    </dependency>
+
+
 
     <dependency>
       <groupId>org.springframework</groupId>
@@ -111,6 +130,10 @@
             </exclude>
           </excludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
     </plugins>
   </build>

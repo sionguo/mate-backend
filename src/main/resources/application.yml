@@ -12,13 +12,6 @@ spring.datasource:
   password: mateadmin
   driver-class-name: org.postgresql.Driver
 
-
-spring.security.oauth2.resourceserver.opaquetoken:
-  client-secret: Q6sauD4PNAUYFjufjuHi0qHpMwPUEPkJf7mbRPX3XgollZUvwiJoBwibvm60k4mu
-  client-id: 284883647322980356@mate
-  introspection-uri: http://localhost:8080/oauth/v2/introspect
-
-
 spring.jpa:
   generate-ddl: true
   properties:
@@ -33,16 +26,3 @@ application.minio:
   endpoint: http://localhost:9000
   access-key: minioadmin
   secret-key: minioadmin
-
-springdoc:
-  swagger-ui:
-    display-request-duration: true
-    groups-order: desc
-    operations-sorter: method
-    disable-swagger-default-url: true
-    use-root-path: true
-    oauth:
-      client-id: 284883009755217924@mate
-      client-secret: RJafSld2SmI53SHTv27xyuE7eu0VkJTaphQuXDmKnbPW0Ene5H8P8nSxHUxQNYzm
-      authorization-url: http://localhost:8080/oauth/v2/authorize
-      token-url: http://localhost:8080/oauth/v2/token
