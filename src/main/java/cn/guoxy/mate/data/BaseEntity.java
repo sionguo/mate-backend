@@ -11,7 +11,6 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -26,7 +25,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BaseEntity implements Serializable {
   @Serial private static final long serialVersionUID = 1L;
   @Id @Tsid private String id;
-  @Version private Integer version;
   @CreatedDate private Instant createStamp;
   @CreatedBy private String createBy;
   @LastModifiedDate private Instant lastModifiedStamp;

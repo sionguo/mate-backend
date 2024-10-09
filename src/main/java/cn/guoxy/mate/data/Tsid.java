@@ -9,6 +9,11 @@ import java.lang.annotation.Target;
 import org.hibernate.annotations.IdGeneratorType;
 import org.hibernate.annotations.ValueGenerationType;
 
+/**
+ * TSID
+ *
+ * @author Guo XiaoYong
+ */
 @IdGeneratorType(TsidGenerator.class)
 @ValueGenerationType(generatedBy = TsidGenerator.class)
 @Retention(RUNTIME)

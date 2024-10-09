@@ -26,3 +26,16 @@ application.minio:
   endpoint: http://localhost:9000
   access-key: minioadmin
   secret-key: minioadmin
+
+spring.security.oauth2.resourceserver:
+  opaquetoken:
+    client-id: 288514167424483330@mate
+    client-secret: PYPaSAMKGyurEqryrzoOzoZnKEbZjJRghjWU3QwBnY7X8H6YjDhwf3upe8gjTmIS
+    introspection-uri: http://localhost:8080/oauth/v2/introspect
+springdoc:
+  swagger-ui:
+    oauth:
+      client-secret: pV0Kih3pb4LufBjESxUVSADleNH6epYt2lSyXTLczS8a0EOqWUsD3D6DbB42Y3B1
+      client-id: 288516062696243202@mate
+      authorization-url: http://localhost:8080/oauth/v2/authorize
+      token-url: http://localhost:8080/oauth/v2/token

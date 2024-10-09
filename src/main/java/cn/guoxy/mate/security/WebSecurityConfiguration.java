@@ -7,10 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 
 /**
@@ -20,28 +18,12 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
  */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
+@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfiguration {
-  private static final String LOGIN_URL = "/api/login";
-  private final RestAuthenticationFailureHandler restAuthenticationFailureHandler;
-  private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
-  private final RestAccessDeniedHandler restAccessDeniedHandler;
-  private final BearerTokenAuthenticationEntryPoint bearerTokenAuthenticationEntryPoint;
+  private final OpaqueTokenIntrospector introspector;
 
-  public WebSecurityConfiguration(
-      RestAuthenticationFailureHandler restAuthenticationFailureHandler,
-      RestAuthenticationSuccessHandler restAuthenticationSuccessHandler,
-      RestAccessDeniedHandler restAccessDeniedHandler,
-      BearerTokenAuthenticationEntryPoint bearerTokenAuthenticationEntryPoint) {
-    this.restAuthenticationFailureHandler = restAuthenticationFailureHandler;
-    this.restAuthenticationSuccessHandler = restAuthenticationSuccessHandler;
-    this.restAccessDeniedHandler = restAccessDeniedHandler;
-    this.bearerTokenAuthenticationEntryPoint = bearerTokenAuthenticationEntryPoint;
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  public WebSecurityConfiguration(OpaqueTokenIntrospector introspector) {
+    this.introspector = introspector;
   }
 
   @Bean
@@ -51,8 +33,6 @@ public class WebSecurityConfiguration {
         .authorizeHttpRequests(
             (authorize) ->
                 authorize
-                    .requestMatchers(LOGIN_URL)
-                    .permitAll()
                     .requestMatchers("/public/**")
                     .permitAll()
                     .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
@@ -61,22 +41,14 @@ public class WebSecurityConfiguration {
                     .authenticated())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .httpBasic(AbstractHttpConfigurer::disable)
-        .exceptionHandling(
-            exception ->
-                exception
-                    .authenticationEntryPoint(bearerTokenAuthenticationEntryPoint)
-                    .accessDeniedHandler(restAccessDeniedHandler))
-        .formLogin(
-            form ->
-                form.failureHandler(restAuthenticationFailureHandler)
-                    .successHandler(restAuthenticationSuccessHandler)
-                    .loginProcessingUrl(LOGIN_URL));
+        .oauth2ResourceServer(rs -> rs.opaqueToken(ot -> ot.introspector(this.introspector())));
 
     http.addFilterAfter(new MethodContextFilter(), SecurityContextHolderAwareRequestFilter.class);
-    http.addFilterBefore(
-        new BearerTokenAuthenticationFilter(bearerTokenAuthenticationEntryPoint),
-        UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
+  }
+
+  private OpaqueTokenIntrospector introspector() {
+    return new ZitadelAuthorityOpaqueTokenIntrospector(introspector);
   }
 }
