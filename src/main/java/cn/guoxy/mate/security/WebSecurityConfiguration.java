@@ -51,7 +51,9 @@ public class WebSecurityConfiguration {
         .authorizeHttpRequests(
             (authorize) ->
                 authorize
-                    .requestMatchers(LOGIN_URL, "/error")
+                    .requestMatchers(LOGIN_URL)
+                    .permitAll()
+                    .requestMatchers("/public/**")
                     .permitAll()
                     .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
                     .permitAll()
