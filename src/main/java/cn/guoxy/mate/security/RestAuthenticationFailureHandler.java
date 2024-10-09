@@ -1,7 +1,6 @@
 package cn.guoxy.mate.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
   @Override
   public void onAuthenticationFailure(
       HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-      throws IOException, ServletException {
+      throws IOException {
     Map<String, Object> result = new HashMap<>();
     result.put("msg", exception.getMessage());
     response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
